@@ -1,0 +1,22 @@
+platform: linux
+
+image_resource:
+  type: registry-image
+  source:
+    repository: node
+    tag: "12.5"
+
+inputs:
+  - name: source-code
+
+run:
+  path: /bin/sh
+  args:
+    - -c
+    - |
+      echo "Node Version: $(node --version)"
+      echo "NPM Version: $(npm --version)"
+      ls
+      cd source-code
+      npm install
+      npm test

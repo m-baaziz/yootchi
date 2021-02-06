@@ -1,0 +1,16 @@
+resources:
+  - name: source-code
+    type: git
+    icon: github
+    source:
+      uri: git@github.com:m-baaziz/yootchi.git
+      branch: main
+      private-key: ((git_private_key))
+
+jobs:
+  - name: test
+    plan:
+      - get: source-code
+        trigger: true
+      - task: run-tests
+        file: source-code/ci/tasks/test.yml
