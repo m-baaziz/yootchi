@@ -1,0 +1,17 @@
+{
+  "name": "p2bz7tk-9hffy39n",
+  "hash": "5YyneSmtMeWAkX0/bQxjm2k3axjb7PJCTtaxoJEIIb4=",
+  "description": "API Lambda@Edge for Next CloudFront distribution",
+  "memory": 512,
+  "timeout": 10,
+  "code": "/Users/mohamed.b/code/yootchi/app/.serverless_nextjs/api-lambda",
+  "shims": [],
+  "handler": "index.handler",
+  "runtime": "nodejs12.x",
+  "env": {},
+  "role": {
+    "arn": "arn:aws:iam::610590845656:role/p2bz7tk-jxv5ja4"
+  },
+  "arn": "arn:aws:lambda:us-east-1:610590845656:function:p2bz7tk-9hffy39n",
+  "region": "us-east-1"
+}
