@@ -20,5 +20,7 @@ run:
       echo "Node Version: $(node --version)"
       echo "NPM Version: $(npm --version)"
       cd source-code
+      env
       npm install
-      npm test
+      npm run build
+      npx serverless

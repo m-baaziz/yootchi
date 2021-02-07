@@ -8,9 +8,16 @@ resources:
       private_key: ((git.private_key))
 
 jobs:
-  - name: test
+  - name: test-deploy
     plan:
       - get: source-code
         trigger: true
       - task: run-tests
         file: source-code/ci/tasks/test.yml
+    on_success:
+      task: deploy-prod
+      file: source-code/ci/tasks/deploy.yml
+      params:
+        AWS_ACCESS_KEY_ID: ((aws.yootchi_deploy_access_key_id))
+        AWS_SECRET_ACCESS_KEY: ((aws.yootchi_deploy_secret_access_key))
+        AWS_REGION: eu-west-3
