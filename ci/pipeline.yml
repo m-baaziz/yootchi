@@ -5,7 +5,7 @@ resources:
     source:
       uri: git@github.com:m-baaziz/yootchi.git
       branch: main
-      private-key: ((git_private_key))
+      private_key: ((git.private_key))
 
 jobs:
   - name: test

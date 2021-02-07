@@ -16,7 +16,6 @@ run:
     - |
       echo "Node Version: $(node --version)"
       echo "NPM Version: $(npm --version)"
-      ls
       cd source-code
       npm install
       npm test
