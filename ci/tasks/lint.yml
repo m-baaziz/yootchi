@@ -20,4 +20,4 @@ run:
       echo "NPM Version: $(npm --version)"
       cd source-code
       npm install
-      npx eslint .
+      npm run lint
