@@ -15,7 +15,6 @@ run:
     - -c
     - |
       set -e
-      set -o pipefail
 
       echo "Node Version: $(node --version)"
       echo "NPM Version: $(npm --version)"
