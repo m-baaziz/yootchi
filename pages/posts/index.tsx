@@ -1,3 +1,3 @@
-export default function Posts() {
+export default function Posts(): React.ReactElement {
   return <div>Posts</div>;
 }

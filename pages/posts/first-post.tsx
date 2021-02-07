@@ -8,7 +8,7 @@ type FirstPostProps = {
   posts: Post[];
 };
 
-export default function FirstPost(props: FirstPostProps) {
+export default function FirstPost(props: FirstPostProps): React.ReactElement {
   const { posts } = props;
   return (
     <div>

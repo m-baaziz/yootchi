@@ -8,7 +8,7 @@ type PostProps = {
   post?: Post;
 };
 
-export default function PostComponent(props: PostProps) {
+export default function PostComponent(props: PostProps): React.ReactElement {
   const router = useRouter();
   if (router.isFallback) {
     return <div>Loading ...</div>;
