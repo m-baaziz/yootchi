@@ -21,4 +21,4 @@ run:
       cd source-code
       npm install
       npm run build
-      npx serverless
+      npx serverless --stage=$STAGE

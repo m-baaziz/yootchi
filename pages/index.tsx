@@ -1,8 +1,15 @@
+import { GetStaticProps } from "next";
 import Head from "next/head";
 import Link from "next/link";
 import styles from "../styles/Home.module.css";
 
-export default function Home(): React.ReactElement {
+type HomeProps = {
+  stage: string;
+};
+
+export default function Home(props: HomeProps): React.ReactElement {
+  const { stage } = props;
+
   return (
     <div className={styles.container}>
       <Head>
@@ -12,7 +19,7 @@ export default function Home(): React.ReactElement {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
+          Welcome to <a href="https://nextjs.org">Next.js!</a> ({stage})
         </h1>
 
         <p className={styles.description}>
@@ -71,3 +78,11 @@ export default function Home(): React.ReactElement {
     </div>
   );
 }
+
+export const getStaticProps: GetStaticProps<HomeProps> = async () => {
+  return {
+    props: {
+      stage: process.env["STAGE"] || "prod",
+    },
+  };
+};

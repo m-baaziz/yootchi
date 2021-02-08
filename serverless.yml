@@ -1,4 +1,10 @@
+stage: ${env.STAGE}
 yootchi:
   component: "@sls-next/serverless-component@1.19.0-alpha.30"
   inputs:
     bucketRegion: "eu-west-3"
+    cloudfront:
+      distributionId: ${env.DISTRIBUTION_ID}
+    build:
+      env:
+        STAGE: ${env.STAGE}
