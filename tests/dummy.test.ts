@@ -1,4 +1,4 @@
-import { Post } from "../lib/types/post";
+import { Post } from "../src/types/post";
 
 describe("Dummy tests", () => {
   it("test one", () => {

@@ -1,8 +1,8 @@
 import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
 
-import { Post } from "../../lib/types/post";
-import { getSortedPostsData } from "../../lib/posts";
+import { Post } from "../../src/types/post";
+import { getSortedPostsData } from "../../src/lib/posts";
 
 type PostProps = {
   post?: Post;

@@ -1,9 +1,35 @@
+import React from "react";
 import type { AppProps } from "next/app";
+import { useMediaQuery } from "@material-ui/core";
 
-import "../styles/globals.css";
+import Layout from "../src/components/Layout";
+
+import AppContext from "../src/context";
 
 function MyApp({ Component, pageProps }: AppProps): React.ReactElement {
-  return <Component {...pageProps} />;
+  const preferLightTheme = useMediaQuery("(prefers-color-scheme: light)");
+
+  React.useEffect(() => {
+    // Remove the server-side injected CSS.
+    const jssStyles = document.querySelector("#jss-server-side");
+    if (jssStyles) {
+      jssStyles.parentElement.removeChild(jssStyles);
+    }
+  }, []);
+
+  return (
+    <AppContext.Provider
+      value={{
+        stage: "dev",
+        lang: "en",
+        theme: preferLightTheme ? "light" : "dark",
+      }}
+    >
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </AppContext.Provider>
+  );
 }
 
 export default MyApp;
