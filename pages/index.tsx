@@ -1,10 +1,10 @@
 import React from "react";
 import { GetStaticProps } from "next";
 import Head from "next/head";
-import { Theme, withStyles, WithStyles } from "@material-ui/core/styles";
+import { withStyles, WithStyles } from "@material-ui/core/styles";
 import { createStyles } from "@material-ui/core";
 
-const styles = (theme: Theme) =>
+const styles = () =>
   createStyles({
     root: {},
   });
