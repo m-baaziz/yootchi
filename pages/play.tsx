@@ -1,7 +1,7 @@
 import React from "react";
 import { GetStaticProps } from "next";
 import { withStyles, WithStyles } from "@material-ui/core/styles";
-import { createStyles, Grid } from "@material-ui/core";
+import { createStyles } from "@material-ui/core";
 import { useCookies } from "react-cookie";
 import { ok } from "neverthrow";
 
@@ -33,7 +33,7 @@ type PlayProps = WithStyles<typeof styles> & {
 const COOKIES_PRESETS_KEY = "presets";
 
 function Play(props: PlayProps): React.ReactElement {
-  const { classes, config } = props;
+  const { classes } = props;
   const [cookies, setCookie] = useCookies([COOKIES_PRESETS_KEY]);
 
   const [presets, setPresets] = React.useState<Presets | undefined>(undefined);

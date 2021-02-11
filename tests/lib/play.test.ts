@@ -41,13 +41,14 @@ describe("Play page", () => {
     },
   ];
 
-  test.each(testCases)("serialize presets (%#)", async (testCase: TestCase) => {
-    const result = await serializePresets(testCase.presets);
-    expect(result).toBe(testCase.hash);
+  test.each(testCases)("serialize presets (%#)", (testCase: TestCase) => {
+    const result = serializePresets(testCase.presets);
+    expect(result.isOk()).toBeTruthy();
+    expect(result.unwrapOr("")).toBe(testCase.hash);
   });
 
   test.each(testCases)("parse presets (%#)", async (testCase: TestCase) => {
-    const result = await parsePresets(testCase.hash);
+    const result = parsePresets(testCase.hash);
     expect(result).toEqual(testCase.afterParsePresets || testCase.presets);
   });
 });
