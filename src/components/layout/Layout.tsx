@@ -1,18 +1,20 @@
 import React from "react";
 import Head from "next/head";
 import {
-  Theme,
   withStyles,
   WithStyles,
   ThemeProvider,
 } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import { createStyles, Box } from "@material-ui/core";
+import { createStyles } from "@material-ui/core";
 
-import myTheme from "../theme";
-import AppContext from "../context";
+import GameController from "../game/GameController";
+import Headbar from "./Headbar";
 
-const styles = (theme: Theme) =>
+import myTheme from "../../theme";
+import AppContext from "../../contexts/app-context";
+
+const styles = () =>
   createStyles({
     container: {
       minHeight: "100vh",
@@ -48,9 +50,12 @@ function Layout(
       </Head>
       <ThemeProvider theme={myTheme(theme)}>
         <CssBaseline />
-        <div className={classes.container}>
-          <main className={classes.main}>{children}</main>
-        </div>
+        <GameController>
+          <div className={classes.container}>
+            <Headbar />
+            <main className={classes.main}>{children}</main>
+          </div>
+        </GameController>
       </ThemeProvider>
     </>
   );

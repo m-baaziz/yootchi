@@ -2,9 +2,9 @@ import React from "react";
 import type { AppProps } from "next/app";
 import { useMediaQuery } from "@material-ui/core";
 
-import Layout from "../src/components/Layout";
+import Layout from "../src/components/layout/Layout";
 
-import AppContext from "../src/context";
+import AppContext from "../src/contexts/app-context";
 
 function MyApp({ Component, pageProps }: AppProps): React.ReactElement {
   const preferLightTheme = useMediaQuery("(prefers-color-scheme: light)");
