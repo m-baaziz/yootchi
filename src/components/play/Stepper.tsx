@@ -80,6 +80,7 @@ type StepperProps = WithStyles<typeof styles> & {
   steps: Step[];
   value?: Step;
   onChange: (step: Step) => void;
+  restrictJump?: boolean;
 };
 
 type StepIconProps = {
@@ -107,10 +108,37 @@ function StepIcon(props: StepIconProps) {
 }
 
 function Stepper(props: StepperProps): React.ReactElement {
-  const { classes, className, steps, value, onChange } = props;
+  const {
+    classes,
+    className,
+    steps,
+    value,
+    onChange,
+    restrictJump = false,
+  } = props;
+
+  const [visitedSteps, setVisitedSteps] = React.useState<Record<Step, boolean>>(
+    steps.reduce(
+      (acc, step) => ({ ...acc, [step]: false }),
+      {} as Record<Step, boolean>
+    )
+  );
+
+  React.useEffect(() => {
+    if (visitedSteps[value]) return;
+    setVisitedSteps({
+      ...visitedSteps,
+      [value]: true,
+    });
+  }, [setVisitedSteps, visitedSteps, value]);
 
   const handleStepClick = (step: Step) => (): void => {
-    onChange(step);
+    if (
+      !restrictJump ||
+      visitedSteps[step] ||
+      steps.findIndex((s) => s === step) < steps.findIndex((s) => s === value)
+    )
+      onChange(step);
   };
 
   const activeStep = Math.max(
@@ -127,7 +155,7 @@ function Stepper(props: StepperProps): React.ReactElement {
         connector={<StepConnector />}
       >
         {steps.map((step) => (
-          <MuiStep key={step} onClick={handleStepClick(step)}>
+          <MuiStep key={step} expanded onClick={handleStepClick(step)}>
             <MuiStepLabel
               classes={{ alternativeLabel: classes.alternativeLabel }}
               StepIconComponent={StepIcon}

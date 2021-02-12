@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import cn from "classnames";
 import { withStyles, WithStyles } from "@material-ui/core/styles";
 import { createStyles, IconButton } from "@material-ui/core";
 import {
@@ -24,14 +25,16 @@ const styles = () =>
     title: { cursor: "pointer", margin: "auto" },
   });
 
-type HeadbarProps = WithStyles<typeof styles>;
+type HeadbarProps = WithStyles<typeof styles> & {
+  className?: string;
+};
 
 function Headbar(props: HeadbarProps): React.ReactElement {
-  const { classes } = props;
+  const { classes, className } = props;
   const { game } = React.useContext(GameContext);
 
   return (
-    <div className={classes.root}>
+    <div className={cn(classes.root, className)}>
       <div className={classes.menuIconContainer}>
         <IconButton className={classes.icon}>
           {game ? <WidgetsIcon /> : <ListIcon />}

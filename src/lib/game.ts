@@ -17,7 +17,18 @@ export function parseMode(str: string): Result<Mode, string> {
 
 export function getGameConfig(): Promise<GameConfig> {
   return Promise.resolve({
-    langs: [{ id: Language.EN }, { id: Language.JA }],
+    langs: [
+      {
+        id: Language.EN,
+        image_url: "/images/uk_1.png",
+        flag_url: "/images/uk_flag.svg",
+      },
+      {
+        id: Language.JA,
+        image_url: "/images/japan_1.png",
+        flag_url: "/images/japan_flag.svg",
+      },
+    ],
     modes: {
       [Language.EN]: [Mode.FLASHCARD],
       [Language.FR]: [],

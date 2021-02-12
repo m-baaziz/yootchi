@@ -21,6 +21,7 @@ export type Game = {
 export type LanguageInfo = {
   id: Language;
   image_url?: string;
+  flag_url?: string;
 };
 
 export type GameConfig = {

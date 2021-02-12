@@ -1,5 +1,5 @@
 import { createMuiTheme, Theme } from "@material-ui/core/styles";
-import { grey, orange, deepPurple } from "@material-ui/core/colors";
+import { grey, cyan, deepPurple } from "@material-ui/core/colors";
 import { ThemePreference } from "./types/theme-preference";
 
 const theme = (themePreference: ThemePreference): Theme =>
@@ -15,7 +15,7 @@ const theme = (themePreference: ThemePreference): Theme =>
         main: deepPurple[600],
       },
       secondary: {
-        main: orange[500],
+        main: cyan[500],
       },
     },
   });

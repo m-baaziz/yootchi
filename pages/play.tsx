@@ -1,16 +1,24 @@
 import React from "react";
 import { GetStaticProps } from "next";
-import { withStyles, WithStyles } from "@material-ui/core/styles";
-import { createStyles } from "@material-ui/core";
 import { useCookies } from "react-cookie";
 import { ok } from "neverthrow";
+import { withStyles, WithStyles } from "@material-ui/core/styles";
+import { createStyles, Fab } from "@material-ui/core";
+import { NavigateNext } from "@material-ui/icons";
 
-import LangSelection from "../src/components/play/LangSelection";
 import Stepper from "../src/components/play/Stepper";
+import LangSelection from "../src/components/play/LangSelection";
+import ModeSelection from "../src/components/play/ModeSelection";
 
-import { GameConfig, Language } from "../src/types/game";
+import { GameConfig, Language, Mode } from "../src/types/game";
 import { Step, Presets } from "../src/types/play";
-import { ALL_STEPS, serializePresets, parsePresets } from "../src/lib/play";
+import {
+  ALL_STEPS,
+  DEFAULT_PRESETS,
+  serializePresets,
+  parsePresets,
+  getNextStep,
+} from "../src/lib/play";
 import { getGameConfig } from "../src/lib/game";
 
 const styles = () =>
@@ -18,12 +26,21 @@ const styles = () =>
     root: {
       height: "100%",
       width: "100%",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "space-between",
+      display: "grid",
+      gridTemplate:
+        "  \
+        ' .   .         .      .     . '  3em   \
+        ' . stepper  stepper stepper . '  auto  \
+        ' . content  content content . '  1fr   \
+        ' .   .      actions actions . '  auto  \
+        ' .   .         .       .    . '  3em   \
+        / 10%  1fr      auto    auto  10%       \
+      ",
     },
-    stepper: { paddingTop: "3em" },
-    langSelection: {},
+    stepper: { gridArea: "stepper" },
+    content: { gridArea: "content" },
+    actions: { gridArea: "actions" },
+    nextBtn: { fontSize: "4em" },
   });
 
 type PlayProps = WithStyles<typeof styles> & {
@@ -33,56 +50,85 @@ type PlayProps = WithStyles<typeof styles> & {
 const COOKIES_PRESETS_KEY = "presets";
 
 function Play(props: PlayProps): React.ReactElement {
-  const { classes } = props;
+  const { classes, config } = props;
   const [cookies, setCookie] = useCookies([COOKIES_PRESETS_KEY]);
+  const [cookiesLoaded, setCookiesLoaded] = React.useState(false);
+  const [presets, setPresets] = React.useState<Presets>(DEFAULT_PRESETS);
 
-  const [presets, setPresets] = React.useState<Presets | undefined>(undefined);
+  const handleStepChange = (step: Step): void => {
+    setPresets({
+      ...presets,
+      step,
+    });
+  };
 
-  const handleLangSelectionSubmit = (language: Language): void => {
+  const handleLangChange = (language: Language): void => {
     setPresets({
       ...presets,
       language,
     });
   };
 
-  const handleStepChange = (step: Step): void => {
+  const handleModeChange = (mode: Mode): void => {
     setPresets({
       ...presets,
-      step,
-      language: Language.JA,
+      mode,
+    });
+  };
+
+  const handleNextClick = (): void => {
+    setPresets({
+      ...presets,
+      step: getNextStep(presets.step),
     });
   };
 
   React.useEffect(() => {
-    if (presets === undefined) {
+    if (!cookiesLoaded) {
       if (typeof cookies[COOKIES_PRESETS_KEY] === "string") {
         setPresets(parsePresets(cookies[COOKIES_PRESETS_KEY]));
+        setCookiesLoaded(true);
         return;
       }
-    } else {
-      serializePresets(presets).andThen((hash) => {
-        if (cookies[COOKIES_PRESETS_KEY] === hash) {
-          return ok(null);
-        }
-        setCookie(COOKIES_PRESETS_KEY, hash);
-        return ok(null);
-      });
     }
-  }, [setCookie, setPresets, cookies, presets]);
+  }, [setCookiesLoaded, setPresets, cookiesLoaded, cookies]);
+
+  React.useEffect(() => {
+    serializePresets(presets).andThen((hash) => {
+      setCookie(COOKIES_PRESETS_KEY, hash);
+      return ok(null);
+    });
+  }, [setCookie, presets]);
 
   return (
     <div className={classes.root}>
       <Stepper
         className={classes.stepper}
         steps={ALL_STEPS}
-        value={presets?.step}
+        value={presets.step}
         onChange={handleStepChange}
+        restrictJump
       />
-      <LangSelection
-        className={classes.langSelection}
-        value={presets?.language}
-        onSubmit={handleLangSelectionSubmit}
-      />
+      {presets.step === Step.LANGUAGE ? (
+        <LangSelection
+          className={classes.content}
+          languageInfos={config.langs}
+          value={presets.language}
+          onChange={handleLangChange}
+        />
+      ) : null}
+      {presets.step === Step.MODE ? (
+        <ModeSelection
+          className={classes.content}
+          value={presets.mode}
+          onChange={handleModeChange}
+        />
+      ) : null}
+      <div className={classes.actions}>
+        <Fab color="secondary" aria-label="next" onClick={handleNextClick}>
+          <NavigateNext fontSize="inherit" className={classes.nextBtn} />
+        </Fab>
+      </div>
     </div>
   );
 }

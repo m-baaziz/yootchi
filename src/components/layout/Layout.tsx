@@ -19,18 +19,19 @@ const styles = () =>
     container: {
       minHeight: "100vh",
       padding: "0 0.5rem",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
+      display: "grid",
+      gridTemplate:
+        "  \
+        ' header'  auto   \
+        ' main '  1fr  \
+        / 1fr \
+      ",
+    },
+    header: {
+      gridArea: "header",
     },
     main: {
-      flex: 1,
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-      width: "100%",
+      gridArea: "main",
     },
   });
 
@@ -52,7 +53,7 @@ function Layout(
         <CssBaseline />
         <GameController>
           <div className={classes.container}>
-            <Headbar />
+            <Headbar className={classes.header} />
             <main className={classes.main}>{children}</main>
           </div>
         </GameController>

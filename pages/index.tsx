@@ -7,8 +7,8 @@ import { createStyles, Button } from "@material-ui/core";
 
 const styles = () =>
   createStyles({
-    root: {},
-    content: {},
+    root: { height: "100%", display: "flex" },
+    content: { margin: "auto" },
   });
 
 type HomeProps = WithStyles<typeof styles> & {
