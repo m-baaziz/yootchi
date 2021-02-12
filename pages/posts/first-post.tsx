@@ -3,6 +3,7 @@ import { GetStaticProps } from "next";
 import Link from "next/link";
 
 import { Post } from "../../src/types/post";
+import { Mode } from "../../src/types/game";
 import GameContext from "../../src/contexts/game-context";
 import { getSortedPostsData } from "../../src/lib/posts";
 
@@ -16,7 +17,7 @@ export default function FirstPost(props: FirstPostProps): React.ReactElement {
 
   const handleTitleClick = () => {
     setGame({
-      mode: "flashcard",
+      mode: Mode.FLASHCARD,
     });
   };
 
