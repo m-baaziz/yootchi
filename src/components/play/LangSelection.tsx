@@ -62,6 +62,9 @@ type LangSelectionProps = WithStyles<typeof styles> & {
 function LangSelection(props: LangSelectionProps): React.ReactElement {
   const { classes, languageInfos, className, value, onChange } = props;
   const [hoveredLang, setHoveredLang] = React.useState<Language | undefined>();
+  const [languageInfo, setLanguageInfo] = React.useState<LanguageInfo>(
+    languageInfos[0]
+  );
 
   const handleLangClick = (lang: Language) => (): void => {
     onChange(lang);
@@ -77,8 +80,11 @@ function LangSelection(props: LangSelectionProps): React.ReactElement {
     }
   };
 
-  const languageInfo: LanguageInfo =
-    languageInfos.find((info) => info.id === value) || languageInfos[0];
+  React.useEffect(() => {
+    setLanguageInfo(
+      languageInfos.find((info) => info.id === value) || languageInfos[0]
+    );
+  }, [setLanguageInfo, languageInfos, value]);
 
   return (
     <div className={cn(classes.root, className)}>

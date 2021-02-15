@@ -17,9 +17,9 @@ import {
   DEFAULT_PRESETS,
   serializePresets,
   parsePresets,
-  getNextStep,
 } from "../src/lib/play";
 import { getGameConfig } from "../src/lib/game";
+import { getNext } from "../src/lib/utils";
 
 const styles = () =>
   createStyles({
@@ -79,7 +79,7 @@ function Play(props: PlayProps): React.ReactElement {
   const handleNextClick = (): void => {
     setPresets({
       ...presets,
-      step: getNextStep(presets.step),
+      step: getNext(ALL_STEPS, presets.step),
     });
   };
 
@@ -120,6 +120,7 @@ function Play(props: PlayProps): React.ReactElement {
       {presets.step === Step.MODE ? (
         <ModeSelection
           className={classes.content}
+          modeInfos={config.modes[presets.language]}
           value={presets.mode}
           onChange={handleModeChange}
         />

@@ -24,7 +24,14 @@ export type LanguageInfo = {
   flag_url?: string;
 };
 
+export type ModeInfo = {
+  id: Mode;
+  image_url?: string;
+  title: string;
+  description: string;
+};
+
 export type GameConfig = {
   langs: LanguageInfo[];
-  modes: Record<Language, Mode[]>;
+  modes: Record<Language, ModeInfo[]>;
 };

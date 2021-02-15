@@ -54,9 +54,3 @@ export function parsePresets(b64Str: string): Presets {
     };
   }
 }
-
-export function getNextStep(step: Step): Step {
-  const index = ALL_STEPS.findIndex((s) => s === step);
-  if (index === ALL_STEPS.length - 1) return step;
-  return ALL_STEPS[index + 1];
-}
