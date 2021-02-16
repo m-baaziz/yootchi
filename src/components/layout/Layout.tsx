@@ -22,8 +22,8 @@ const styles = () =>
       display: "grid",
       gridTemplate:
         "  \
-        ' header'  auto   \
-        ' main '  1fr  \
+        ' header '  auto   \
+        ' main   '   1fr  \
         / 1fr \
       ",
     },

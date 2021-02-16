@@ -1,37 +1,29 @@
+import { Language } from "./language";
+import { Mode } from "./mode";
+import { Player } from "./player";
+
 export enum Error {
   INVALID_LANGUAGE = "Invalid language",
   INVALID_MODE = "Invalid mode",
 }
 
-export enum Language {
-  EN = "english",
-  FR = "french",
-  JA = "japanese",
+export enum State {
+  CONFIGURING_LANGUAGE = "Changing Language",
+  CONFIGURING_MODE = "Changing Mode",
+  CONFIGURING_PARTY = "Changing Party",
+  READY = "Ready",
+  IN_PROGRESS = "In Progress",
+  FINISHED = "Finished",
 }
 
-export enum Mode {
-  FLASHCARD = "flashcard",
-  DRAW_IT = "draw_it",
-}
+export type Settings = {
+  language?: Language;
+  mode?: Mode;
+};
 
 export type Game = {
-  mode: Mode;
-};
-
-export type LanguageInfo = {
-  id: Language;
-  image_url?: string;
-  flag_url?: string;
-};
-
-export type ModeInfo = {
-  id: Mode;
-  image_url?: string;
-  title: string;
-  description: string;
-};
-
-export type GameConfig = {
-  langs: LanguageInfo[];
-  modes: Record<Language, ModeInfo[]>;
+  id?: string;
+  state: State;
+  settings: Settings;
+  players: Player[];
 };

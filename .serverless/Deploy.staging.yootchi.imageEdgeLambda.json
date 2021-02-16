@@ -1,0 +1,17 @@
+{
+  "name": "o9ea4qq-0w6qdg",
+  "hash": "yOVt0fdxXJgXcLIs6WWrWw/VE68uxHdDwNHZNUXiW+E=",
+  "description": "Image Lambda@Edge for Next CloudFront distribution",
+  "memory": 512,
+  "timeout": 10,
+  "code": "/Users/mohamed.b/code/yootchi/app/.serverless_nextjs/image-lambda",
+  "shims": [],
+  "handler": "index.handler",
+  "runtime": "nodejs12.x",
+  "env": {},
+  "role": {
+    "arn": "arn:aws:iam::610590845656:role/o9ea4qq-kc6z83j"
+  },
+  "arn": "arn:aws:lambda:us-east-1:610590845656:function:o9ea4qq-0w6qdg",
+  "region": "us-east-1"
+}

@@ -1,6 +1,6 @@
-import { Mode, ModeInfo } from "../../src/types/game";
-import { Step } from "../../src/types/play";
-import { ALL_STEPS } from "../../src/lib/play";
+import { Mode, ModeInfo } from "../../src/types/mode";
+import { Step } from "../../src/types/lobby";
+import { ALL_STEPS } from "../../src/lib/lobby";
 import { getNext, getPrevious } from "../../src/lib/utils";
 
 type TestCase<T, U> = {
@@ -33,12 +33,12 @@ describe("Utils", () => {
       {
         sortedArray: ALL_STEPS,
         currentValue: Step.MODE,
-        nextValue: Step.LOBBY,
+        nextValue: Step.PARTY,
         previousValue: Step.LANGUAGE,
       },
       {
         sortedArray: ALL_STEPS,
-        currentValue: Step.LOBBY,
+        currentValue: Step.PARTY,
         nextValue: null,
         previousValue: Step.MODE,
       },

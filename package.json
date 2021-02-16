@@ -12,8 +12,8 @@
     "test": "jest",
     "test-watch": "jest --watch",
     "lint": "eslint .",
-    "deployStaging": "serverless --stage=staging",
-    "deployProd": "serverless --stage=prod"
+    "deployStaging": "STAGE=staging serverless --stage=staging",
+    "deployProd": "STAGE=prod serverless --stage=prod"
   },
   "dependencies": {
     "@material-ui/core": "^4.11.3",
@@ -24,7 +24,8 @@
     "next": "10.0.5",
     "react": "17.0.1",
     "react-cookie": "^4.0.3",
-    "react-dom": "17.0.1"
+    "react-dom": "17.0.1",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.11.9",
