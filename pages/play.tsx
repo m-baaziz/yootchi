@@ -1,10 +1,10 @@
 import React from "react";
 import head from "lodash/head";
 import { GetStaticProps } from "next";
+import cn from "classnames";
 import { withStyles, WithStyles } from "@material-ui/core/styles";
 import { createStyles, Fab } from "@material-ui/core";
-import { NavigateNext } from "@material-ui/icons";
-import { yellow } from "@material-ui/core/colors";
+import { NavigateNext, NavigateBefore } from "@material-ui/icons";
 
 import Stepper from "../src/components/lobby/Stepper";
 import LangSelection from "../src/components/lobby/LangSelection";
@@ -20,7 +20,7 @@ import {
   STEP_STATE_MAP,
   getLobbyConfig,
 } from "../src/lib/lobby";
-import { getNext } from "../src/lib/utils";
+import { getNext, getPrevious } from "../src/lib/utils";
 import GameContext from "../src/contexts/game-context";
 
 const styles = () =>
@@ -31,24 +31,22 @@ const styles = () =>
       display: "grid",
       gridTemplate:
         "  \
-        ' .   .         .      .     . '  3em   \
-        ' . stepper  stepper stepper . '  auto  \
-        ' . content  content content . '  1fr   \
-        ' .   .      actions actions . '  auto  \
-        ' .   .         .       .    . '  1em   \
-        / 10%  1fr      auto    auto  10%       \
+        '    .        .        .        .      .       .        .    '  3em   \
+        '    .     previous stepper  stepper stepper  next      .    '  auto  \
+        ' content  content  content  content content content content '  1fr   \
+        '    .        .        .        .       .      .        .    '  1em   \
+        /   10%      auto     1fr      auto    auto   auto     10%            \
       ",
     },
-    stepper: { gridArea: "stepper" },
+    stepper: { gridArea: "stepper", alignSelf: "center" },
     content: { gridArea: "content" },
     actions: { gridArea: "actions" },
-    nextFab: {
-      backgroundColor: yellow[500],
-      "&:hover": {
-        backgroundColor: yellow[200],
-      },
+    previous: { gridArea: "previous" },
+    next: { gridArea: "next" },
+    navFab: {
+      marginTop: "1em",
     },
-    nextBtn: { fontSize: "4em" },
+    navBtn: { fontSize: "3em" },
   });
 
 type PlayProps = WithStyles<typeof styles> & {
@@ -69,6 +67,16 @@ function Play(props: PlayProps): React.ReactElement {
       ...game,
       state: STEP_STATE_MAP[s],
     });
+  };
+
+  const handlePreviousClick = (): void => {
+    const previousStep = getPrevious(ALL_STEPS, step);
+    if (previousStep) {
+      setGame({
+        ...game,
+        state: STEP_STATE_MAP[previousStep],
+      });
+    }
   };
 
   const handleNextClick = (): void => {
@@ -108,6 +116,16 @@ function Play(props: PlayProps): React.ReactElement {
 
   return (
     <div className={classes.root}>
+      <Fab
+        className={cn(classes.navFab, classes.previous)}
+        aria-label="previous"
+        size="small"
+        color="primary"
+        onClick={handlePreviousClick}
+        disabled={getPrevious(ALL_STEPS, step) === null}
+      >
+        <NavigateBefore fontSize="inherit" className={classes.navBtn} />
+      </Fab>
       <Stepper
         className={classes.stepper}
         steps={ALL_STEPS}
@@ -115,6 +133,16 @@ function Play(props: PlayProps): React.ReactElement {
         onChange={handleStepChange}
         restrictJump
       />
+      <Fab
+        className={cn(classes.navFab, classes.next)}
+        aria-label="next"
+        size="small"
+        color="primary"
+        onClick={handleNextClick}
+        disabled={getNext(ALL_STEPS, step) === null}
+      >
+        <NavigateNext fontSize="inherit" className={classes.navBtn} />
+      </Fab>
       {step === Step.LANGUAGE ? (
         <LangSelection
           className={classes.content}
@@ -138,16 +166,6 @@ function Play(props: PlayProps): React.ReactElement {
           requestPlayer={requestPlayer}
         />
       ) : null}
-      <div className={classes.actions}>
-        <Fab
-          className={classes.nextFab}
-          aria-label="next"
-          onClick={handleNextClick}
-          disabled={getNext(ALL_STEPS, step) === null}
-        >
-          <NavigateNext fontSize="inherit" className={classes.nextBtn} />
-        </Fab>
-      </div>
     </div>
   );
 }

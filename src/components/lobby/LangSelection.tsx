@@ -12,10 +12,10 @@ const styles = () =>
       display: "grid",
       gridTemplate:
         "  \
-        '   .     .  '  1em   \
-        ' image langs'  1fr   \
-        ' image langs'  auto  \
-        /  2fr   1fr          \
+        ' .     .     .    .  '  1em   \
+        ' .   image langs  .  '  1fr   \
+        ' .   image langs  .  '  auto  \
+        / 10%  2fr   1fr  10%          \
       ",
       placeItems: "stretch",
       placeContent: "stretch",

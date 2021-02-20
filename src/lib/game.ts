@@ -33,6 +33,7 @@ export function createGame(game: Game): Promise<Game> {
   return Promise.resolve(game);
 }
 
-export function updateGame(game: Game): Promise<Game> {
-  return Promise.resolve(game);
+export function updateGame(game: Game): Promise<void> {
+  console.log("updating game: ", game);
+  return Promise.resolve();
 }

@@ -15,17 +15,17 @@ const styles = () =>
       display: "grid",
       gridTemplate:
         "  \
-        '      .      .     .     .        .       ' 1em  \
-        ' arrow-left  .   card   .   arrow-right  '  1fr  \
-        '      .      .     .     .        .       ' 1em  \
-        /     10%    1fr   30%  1fr      10%             \
+        '  .       .      .     .     .        .       .   ' 1em  \
+        '  .  arrow-left  .   card    .   arrow-right  .   ' 1fr \
+        '  .       .      .     .     .        .       .   ' 1em  \
+        /  6%     10%    1fr   25%   1fr      10%      6%         \
       ",
       placeItems: "center",
     },
     card: { gridArea: "card" },
     arrowIcon: { fontSize: "5em" },
-    arrowLeft: { gridArea: "arrow-left" },
-    arrowRight: { gridArea: "arrow-right" },
+    arrowLeft: { gridArea: "arrow-left", justifySelf: "center" },
+    arrowRight: { gridArea: "arrow-right", justifySelf: "center" },
   });
 
 type ModeSelectionProps = WithStyles<typeof styles> & {

@@ -20,4 +20,8 @@ const theme = (themePreference: ThemePreference): Theme =>
     },
   });
 
+export function isLightTheme(theme: Theme) {
+  return theme.palette.background.default === "white";
+}
+
 export default theme;

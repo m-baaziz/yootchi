@@ -7,7 +7,7 @@ import { blue, red, green } from "@material-ui/core/colors";
 import { Team, Player } from "../../../types/player";
 
 import PlayerComponent from "./Player";
-// import Chat from "./Chat";
+import Chat from "./Chat";
 
 const TEAM_COLORS: Record<Team, string> = {
   [Team.BLUE]: blue[500],
@@ -18,23 +18,37 @@ const styles = (theme: Theme) =>
   createStyles({
     root: {
       display: "grid",
-      gridTemplate:
-        "  \
-        '     .          .     .     .       .        ' 1em   \
-        '  team-1        .     .     .   team-2       ' 1fr  \
-        '     .          .     .     .       .        ' 1em   \
-        '  add-player-1  .     .     .   add-player-2 ' auto  \
-        '     .          .     .     .       .        ' 4em   \
-        '     .          .   start   .       .        ' auto  \
-        /    3fr        8em   2fr   8em     3fr               \
-      ",
+      [theme.breakpoints.up("lg")]: {
+        gridTemplate:
+          "  \
+          '   .       .          .     .     .       .         . ' 1em   \
+          '   .    team-1        .     .     .   team-2        . ' 1fr   \
+          '   .       .          .     .     .       .         . ' 1em   \
+          '   .   add-player-1   .     .     .   add-player-2  . ' auto  \
+          '   .       .          .     .     .       .         . ' 2em   \
+          '  chat     chat       .   start   .       .         . ' auto  \
+          /  10%     3fr        8em   2fr   8em     3fr       10%        \
+        ",
+      },
+      [theme.breakpoints.down("lg")]: {
+        gridTemplate:
+          "  \
+          '     .          .     .     .       .        ' 1em   \
+          '  team-1        .     .     .   team-2       ' 1fr  \
+          '     .          .     .     .       .        ' 1em   \
+          '  add-player-1  .     .     .   add-player-2 ' auto  \
+          '     .          .     .     .       .        ' 5em   \
+          '   chat         .   start   .       .        ' auto  \
+          /    3fr        8em   2fr   8em     3fr               \
+        ",
+      },
     },
     teamCommon: {
       [theme.breakpoints.up("lg")]: {
-        height: 500,
+        height: 400,
       },
       [theme.breakpoints.down("lg")]: {
-        height: 270,
+        height: 220,
       },
       overflow: "auto",
     },
@@ -42,16 +56,17 @@ const styles = (theme: Theme) =>
     team2: { gridArea: "team-2" },
     addPlayer1: { gridArea: "add-player-1" },
     addPlayer2: { gridArea: "add-player-2" },
+    chat: { gridArea: "chat" },
     btnCommon: { height: "4em" },
     start: {
       gridArea: "start",
+      alignSelf: "center",
       backgroundColor: green.A400,
       color: theme.palette.text.primary,
       "&:hover": {
         backgroundColor: green.A200,
       },
     },
-    playerGridItem: {},
   });
 
 type PartyProps = WithStyles<typeof styles> & {
@@ -85,12 +100,7 @@ function Party(props: PartyProps): React.ReactElement {
         {players
           .filter((player) => player.team === Team.BLUE)
           .map((player) => (
-            <Grid
-              item
-              key={player.user_id}
-              classes={{ item: classes.playerGridItem }}
-              xs={12}
-            >
+            <Grid item key={player.user_id} xs={12}>
               <PlayerComponent
                 player={player}
                 color={TEAM_COLORS[player.team]}
@@ -119,12 +129,7 @@ function Party(props: PartyProps): React.ReactElement {
         {players
           .filter((player) => player.team === Team.RED)
           .map((player) => (
-            <Grid
-              item
-              key={player.user_id}
-              classes={{ item: classes.playerGridItem }}
-              xs={12}
-            >
+            <Grid item key={player.user_id} xs={12}>
               <PlayerComponent
                 player={player}
                 color={TEAM_COLORS[player.team]}
@@ -150,6 +155,7 @@ function Party(props: PartyProps): React.ReactElement {
       >
         Start
       </Button>
+      <Chat className={classes.chat} />
     </div>
   );
 }
