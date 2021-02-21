@@ -1,46 +1,34 @@
 import React from "react";
 import Image from "next/image";
 import cn from "classnames";
-import { Theme, withStyles, WithStyles } from "@material-ui/core/styles";
-import { createStyles, Card, CardContent, Typography } from "@material-ui/core";
+import { withStyles, WithStyles } from "@material-ui/core/styles";
+import { createStyles, Card, Typography } from "@material-ui/core";
 
-const styles = (theme: Theme) =>
+const styles = () =>
   createStyles({
     root: {
       width: "100%",
-      [theme.breakpoints.up("lg")]: {
-        height: 615,
-      },
-      [theme.breakpoints.down("lg")]: {
-        height: 415,
-      },
       borderRadius: 20,
       display: "grid",
       gridTemplate: `\
-          '  image           '  2fr \
-          '  content         '  1fr                 \
-          /  auto                                    \
+          '  image         '  2fr   \
+          '   .            '  1em   \
+          '  title         '  auto  \
+          '  description   '  1fr   \
+          /  auto                   \
         `,
-    },
-    content: {
-      gridArea: "content",
-      display: "grid",
-      gridTemplate:
-        "  \
-        ' title       '  auto  \
-        '   .         '  1em   \
-        ' description '  1fr   \
-        /  auto                \
-      ",
-      placeItems: "center",
-      overflow: "auto",
     },
     imageContainer: {
       gridArea: "image",
       position: "relative",
     },
-    title: { gridArea: "title", color: "black" },
-    description: { gridArea: "description" },
+    title: { gridArea: "title", color: "black", justifySelf: "center" },
+    description: {
+      gridArea: "description",
+      overflowY: "scroll",
+      justifySelf: "center",
+      margin: "1em",
+    },
   });
 
 type ModeCardProps = WithStyles<typeof styles> & {
@@ -58,24 +46,22 @@ function ModeCard(props: ModeCardProps): React.ReactElement {
       <div className={classes.imageContainer}>
         {image_url ? <Image src={image_url} alt={title} layout="fill" /> : null}
       </div>
-      <CardContent className={classes.content}>
-        <Typography
-          className={classes.title}
-          gutterBottom
-          variant="h5"
-          component="h2"
-        >
-          {title}
-        </Typography>
-        <Typography
-          className={classes.description}
-          variant="body2"
-          color="textSecondary"
-          component="p"
-        >
-          {description}
-        </Typography>
-      </CardContent>
+      <Typography
+        className={classes.title}
+        gutterBottom
+        variant="h5"
+        component="h2"
+      >
+        {title}
+      </Typography>
+      <Typography
+        className={classes.description}
+        variant="body2"
+        color="textSecondary"
+        component="p"
+      >
+        {description}
+      </Typography>
     </Card>
   );
 }

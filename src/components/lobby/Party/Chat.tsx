@@ -12,14 +12,12 @@ import { Message } from "../../../types/chat";
 const styles = (theme: Theme) =>
   createStyles({
     root: {
-      // [theme.breakpoints.up("lg")]: {
-      //   width: "36%",
-      //   height: 250,
-      // },
-      // [theme.breakpoints.down("lg")]: {
-      //   width: "33.5%",
-      //   height: 180,
-      // },
+      [theme.breakpoints.up("lg")]: {
+        height: 250,
+      },
+      [theme.breakpoints.down("lg")]: {
+        height: 180,
+      },
       display: "grid",
       gridTemplate:
         "  \

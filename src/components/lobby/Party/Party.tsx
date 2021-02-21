@@ -18,39 +18,19 @@ const styles = (theme: Theme) =>
   createStyles({
     root: {
       display: "grid",
-      [theme.breakpoints.up("lg")]: {
-        gridTemplate:
-          "  \
+      gridTemplate:
+        "  \
           '   .       .          .     .     .       .         . ' 1em   \
-          '   .    team-1        .     .     .   team-2        . ' 1fr   \
+          '   .    team-1        .     .     .   team-2        . ' 1fr  \
           '   .       .          .     .     .       .         . ' 1em   \
           '   .   add-player-1   .     .     .   add-player-2  . ' auto  \
-          '   .       .          .     .     .       .         . ' 2em   \
+          '   .       .          .     .     .       .         . ' 1em   \
           '  chat     chat       .   start   .       .         . ' auto  \
-          /  10%     3fr        8em   2fr   8em     3fr       10%        \
+          /  10%     3fr         4%   2fr    4%     3fr       10%        \
         ",
-      },
-      [theme.breakpoints.down("lg")]: {
-        gridTemplate:
-          "  \
-          '     .          .     .     .       .        ' 1em   \
-          '  team-1        .     .     .   team-2       ' 1fr  \
-          '     .          .     .     .       .        ' 1em   \
-          '  add-player-1  .     .     .   add-player-2 ' auto  \
-          '     .          .     .     .       .        ' 5em   \
-          '   chat         .   start   .       .        ' auto  \
-          /    3fr        8em   2fr   8em     3fr               \
-        ",
-      },
     },
     teamCommon: {
-      [theme.breakpoints.up("lg")]: {
-        height: 400,
-      },
-      [theme.breakpoints.down("lg")]: {
-        height: 220,
-      },
-      overflow: "auto",
+      overflowY: "scroll",
     },
     team1: { gridArea: "team-1" },
     team2: { gridArea: "team-2" },
@@ -64,7 +44,7 @@ const styles = (theme: Theme) =>
       backgroundColor: green.A400,
       color: theme.palette.text.primary,
       "&:hover": {
-        backgroundColor: green.A200,
+        backgroundColor: green.A700,
       },
     },
   });
@@ -93,7 +73,7 @@ function Party(props: PartyProps): React.ReactElement {
       <Grid
         container
         className={cn(classes.team1, classes.teamCommon)}
-        spacing={3}
+        spacing={2}
         justify="flex-start"
         alignContent="flex-start"
       >
@@ -122,7 +102,7 @@ function Party(props: PartyProps): React.ReactElement {
       <Grid
         container
         className={cn(classes.team2, classes.teamCommon)}
-        spacing={3}
+        spacing={2}
         justify="flex-start"
         alignContent="flex-start"
       >

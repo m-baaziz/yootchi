@@ -13,19 +13,32 @@ const styles = () =>
   createStyles({
     root: {
       display: "grid",
-      gridTemplate:
-        "  \
-        '  .       .      .     .     .        .       .   ' 1em  \
+      ["@media (min-height:800px)"]: {
+        gridTemplate:
+          "  \
+        '  .       .      .     .     .        .       .   ' 15%  \
         '  .  arrow-left  .   card    .   arrow-right  .   ' 1fr \
-        '  .       .      .     .     .        .       .   ' 1em  \
-        /  6%     10%    1fr   25%   1fr      10%      6%         \
+        '  .       .      .     .     .        .       .   ' 15%  \
+        /  6%     10%    1fr   20%   1fr      10%      6%         \
       ",
-      placeItems: "center",
+      },
+      ["@media (max-height:799px)"]: {
+        gridTemplate:
+          "  \
+      '  .       .      .     .     .        .       .   ' 1em  \
+      '  .  arrow-left  .   card    .   arrow-right  .   ' 1fr \
+      '  .       .      .     .     .        .       .   ' 1em  \
+      /  6%     10%    1fr   25%   1fr      10%      6%         \
+    ",
+      },
     },
-    card: { gridArea: "card" },
+    card: {
+      gridArea: "card",
+      overflow: "hidden",
+    },
     arrowIcon: { fontSize: "5em" },
-    arrowLeft: { gridArea: "arrow-left", justifySelf: "center" },
-    arrowRight: { gridArea: "arrow-right", justifySelf: "center" },
+    arrowLeft: { gridArea: "arrow-left", placeSelf: "center" },
+    arrowRight: { gridArea: "arrow-right", placeSelf: "center" },
   });
 
 type ModeSelectionProps = WithStyles<typeof styles> & {

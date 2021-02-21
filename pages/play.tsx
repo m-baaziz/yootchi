@@ -39,7 +39,7 @@ const styles = () =>
       ",
     },
     stepper: { gridArea: "stepper", alignSelf: "center" },
-    content: { gridArea: "content" },
+    content: { gridArea: "content", overflow: "hidden" },
     actions: { gridArea: "actions" },
     previous: { gridArea: "previous" },
     next: { gridArea: "next" },

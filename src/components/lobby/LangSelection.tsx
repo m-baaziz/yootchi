@@ -81,6 +81,18 @@ function LangSelection(props: LangSelectionProps): React.ReactElement {
   };
 
   React.useEffect(() => {
+    const listener = (event: KeyboardEvent) => {
+      console.log("KEY = ", event.code);
+      // if (event.code === "Enter" || event.code === "NumpadEnter") {
+      // }
+    };
+    document.addEventListener("keydown", listener);
+    return () => {
+      document.removeEventListener("keydown", listener);
+    };
+  }, []);
+
+  React.useEffect(() => {
     setLanguageInfo(
       languageInfos.find((info) => info.id === value) || languageInfos[0]
     );

@@ -17,7 +17,8 @@ import AppContext from "../../contexts/app-context";
 const styles = () =>
   createStyles({
     container: {
-      minHeight: "100vh",
+      height: "100vh",
+      width: "100vw",
       padding: "0 0.5rem",
       display: "grid",
       gridTemplate:
@@ -31,6 +32,7 @@ const styles = () =>
       gridArea: "header",
     },
     main: {
+      overflow: "hidden",
       gridArea: "main",
     },
   });
