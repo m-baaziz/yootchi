@@ -1,5 +1,6 @@
 import React from "react";
 import cn from "classnames";
+import { Key } from "ts-key-enum";
 import format from "date-fns/format";
 import { withStyles, WithStyles } from "@material-ui/core/styles";
 import { createStyles, Theme, TextField, makeStyles } from "@material-ui/core";
@@ -100,7 +101,7 @@ function Chat(props: ChatProps): React.ReactElement {
 
   React.useEffect(() => {
     const listener = (event: KeyboardEvent) => {
-      if (event.code === "Enter" || event.code === "NumpadEnter") {
+      if (event.code === Key.Enter) {
         inputRef.current?.focus();
       }
     };

@@ -1,10 +1,12 @@
 import React from "react";
 import Image from "next/image";
 import cn from "classnames";
+import { Key } from "ts-key-enum";
 import { withStyles, WithStyles } from "@material-ui/core/styles";
 import { createStyles, Grid, Button } from "@material-ui/core";
 
 import { Language, LanguageInfo } from "../../types/language";
+import { getNext, getPrevious } from "../../lib/utils";
 
 const styles = () =>
   createStyles({
@@ -82,15 +84,25 @@ function LangSelection(props: LangSelectionProps): React.ReactElement {
 
   React.useEffect(() => {
     const listener = (event: KeyboardEvent) => {
-      console.log("KEY = ", event.code);
-      // if (event.code === "Enter" || event.code === "NumpadEnter") {
-      // }
+      const { key } = event;
+      if (![Key.ArrowDown, Key.ArrowUp].includes(key as Key)) return;
+      let nextLanguage: Language | undefined = undefined;
+      const mapper: (li: LanguageInfo) => Language = (li) => li.id;
+      if (key === Key.ArrowDown) {
+        nextLanguage = getNext(languageInfos, value, mapper);
+      }
+      if (key === Key.ArrowUp) {
+        nextLanguage = getPrevious(languageInfos, value, mapper);
+      }
+      if (nextLanguage) {
+        onChange(nextLanguage);
+      }
     };
     document.addEventListener("keydown", listener);
     return () => {
       document.removeEventListener("keydown", listener);
     };
-  }, []);
+  }, [onChange, languageInfos, value]);
 
   React.useEffect(() => {
     setLanguageInfo(

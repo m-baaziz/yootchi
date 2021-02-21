@@ -2,6 +2,7 @@ import React from "react";
 import head from "lodash/head";
 import { GetStaticProps } from "next";
 import cn from "classnames";
+import { Key } from "ts-key-enum";
 import { withStyles, WithStyles } from "@material-ui/core/styles";
 import { createStyles, Fab } from "@material-ui/core";
 import { NavigateNext, NavigateBefore } from "@material-ui/icons";
@@ -57,6 +58,44 @@ function Play(props: PlayProps): React.ReactElement {
   const { classes, config } = props;
   const { game, setGame, requestPlayer } = React.useContext(GameContext);
   const [step, setStep] = React.useState<Step>(STATE_STEP_MAP[game.state]);
+  const [holdingCmd, setHoldingCmd] = React.useState<boolean>(false);
+
+  React.useEffect(() => {
+    const listener = (updown: "up" | "down") => (event: KeyboardEvent) => {
+      const { key } = event;
+      if ([Key.Meta, Key.Control].includes(key as Key)) {
+        setHoldingCmd(updown === "down");
+        return;
+      }
+      if (
+        updown !== "down" ||
+        !holdingCmd ||
+        ![Key.Enter, Key.Backspace].includes(key as Key)
+      )
+        return;
+      let nextStep: Step | undefined = undefined;
+      if (key === Key.Enter) {
+        nextStep = getNext(ALL_STEPS, step);
+      }
+      if (key === Key.Backspace) {
+        nextStep = getPrevious(ALL_STEPS, step);
+      }
+      if (nextStep) {
+        setGame({
+          ...game,
+          state: STEP_STATE_MAP[nextStep],
+        });
+      }
+    };
+    const listenerUp = listener("up");
+    const listenerDown = listener("down");
+    document.addEventListener("keyup", listenerUp);
+    document.addEventListener("keydown", listenerDown);
+    return () => {
+      document.removeEventListener("keyup", listenerUp);
+      document.removeEventListener("keydown", listenerDown);
+    };
+  }, [setHoldingCmd, setGame, game, step, holdingCmd]);
 
   React.useEffect(() => {
     setStep(STATE_STEP_MAP[game.state]);

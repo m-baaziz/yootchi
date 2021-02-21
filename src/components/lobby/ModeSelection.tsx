@@ -1,5 +1,6 @@
 import React from "react";
 import cn from "classnames";
+import { Key } from "ts-key-enum";
 import { withStyles, WithStyles } from "@material-ui/core/styles";
 import { createStyles, Button } from "@material-ui/core";
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@material-ui/icons";
@@ -63,6 +64,28 @@ function ModeSelection(props: ModeSelectionProps): React.ReactElement {
     if (typeof value === undefined) return;
     onChange(getNext(modeInfos, value, (info) => info.id));
   };
+
+  React.useEffect(() => {
+    const listener = (event: KeyboardEvent) => {
+      const { key } = event;
+      if (![Key.ArrowRight, Key.ArrowLeft].includes(key as Key)) return;
+      let nextMode: Mode | undefined = undefined;
+      const mapper: (li: ModeInfo) => Mode = (mi) => mi.id;
+      if (key === Key.ArrowRight) {
+        nextMode = getNext(modeInfos, value, mapper);
+      }
+      if (key === Key.ArrowLeft) {
+        nextMode = getPrevious(modeInfos, value, mapper);
+      }
+      if (nextMode) {
+        onChange(nextMode);
+      }
+    };
+    document.addEventListener("keydown", listener);
+    return () => {
+      document.removeEventListener("keydown", listener);
+    };
+  }, [onChange, modeInfos, value]);
 
   React.useEffect(() => {
     if (value === undefined && modeInfos.length > 0) {

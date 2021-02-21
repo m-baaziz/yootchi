@@ -34,6 +34,5 @@ export function createGame(game: Game): Promise<Game> {
 }
 
 export function updateGame(game: Game): Promise<void> {
-  console.log("updating game: ", game);
   return Promise.resolve();
 }
