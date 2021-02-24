@@ -5,6 +5,8 @@ import { createStyles, Grid, Button } from "@material-ui/core";
 import { blue, red, green } from "@material-ui/core/colors";
 
 import { Team, Player } from "../../../types/player";
+import { State } from "../../../types/game/game";
+import GameContext from "../../../contexts/game-context";
 
 import PlayerComponent from "./Player";
 import Chat from "./Chat";
@@ -57,6 +59,7 @@ type PartyProps = WithStyles<typeof styles> & {
 
 function Party(props: PartyProps): React.ReactElement {
   const { classes, className, players, requestPlayer } = props;
+  const { game, updateGame } = React.useContext(GameContext);
 
   const handleAddAllyClick = (): void => {
     requestPlayer(Team.BLUE);
@@ -65,7 +68,10 @@ function Party(props: PartyProps): React.ReactElement {
     requestPlayer(Team.RED);
   };
   const handleStartClick = (): void => {
-    return;
+    updateGame({
+      ...game,
+      state: State.READY,
+    });
   };
 
   return (

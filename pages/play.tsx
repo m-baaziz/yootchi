@@ -11,10 +11,12 @@ import Stepper from "../src/components/lobby/Stepper";
 import LangSelection from "../src/components/lobby/LangSelection";
 import ModeSelection from "../src/components/lobby/ModeSelection";
 import Party from "../src/components/lobby/Party/Party";
+import Game from "../src/components/game";
 
 import { Language } from "../src/types/language";
 import { Mode } from "../src/types/mode";
 import { Step, LobbyConfig } from "../src/types/lobby";
+import { State } from "../src/types/game/game";
 import {
   ALL_STEPS,
   STATE_STEP_MAP,
@@ -56,8 +58,10 @@ type PlayProps = WithStyles<typeof styles> & {
 
 function Play(props: PlayProps): React.ReactElement {
   const { classes, config } = props;
-  const { game, setGame, requestPlayer } = React.useContext(GameContext);
-  const [step, setStep] = React.useState<Step>(STATE_STEP_MAP[game.state]);
+  const { game, updateGame, requestPlayer } = React.useContext(GameContext);
+  const [lobbyStep, setLobbyStep] = React.useState<Step>(
+    STATE_STEP_MAP[game.state]
+  );
   const [holdingCmd, setHoldingCmd] = React.useState<boolean>(false);
 
   React.useEffect(() => {
@@ -75,13 +79,13 @@ function Play(props: PlayProps): React.ReactElement {
         return;
       let nextStep: Step | undefined = undefined;
       if (key === Key.Enter) {
-        nextStep = getNext(ALL_STEPS, step);
+        nextStep = getNext(ALL_STEPS, lobbyStep);
       }
       if (key === Key.Backspace) {
-        nextStep = getPrevious(ALL_STEPS, step);
+        nextStep = getPrevious(ALL_STEPS, lobbyStep);
       }
       if (nextStep) {
-        setGame({
+        updateGame({
           ...game,
           state: STEP_STATE_MAP[nextStep],
         });
@@ -95,23 +99,23 @@ function Play(props: PlayProps): React.ReactElement {
       document.removeEventListener("keyup", listenerUp);
       document.removeEventListener("keydown", listenerDown);
     };
-  }, [setHoldingCmd, setGame, game, step, holdingCmd]);
+  }, [setHoldingCmd, updateGame, game, lobbyStep, holdingCmd]);
 
   React.useEffect(() => {
-    setStep(STATE_STEP_MAP[game.state]);
-  }, [setStep, game]);
+    setLobbyStep(STATE_STEP_MAP[game.state]);
+  }, [setLobbyStep, game]);
 
   const handleStepChange = (s: Step): void => {
-    setGame({
+    updateGame({
       ...game,
       state: STEP_STATE_MAP[s],
     });
   };
 
   const handlePreviousClick = (): void => {
-    const previousStep = getPrevious(ALL_STEPS, step);
+    const previousStep = getPrevious(ALL_STEPS, lobbyStep);
     if (previousStep) {
-      setGame({
+      updateGame({
         ...game,
         state: STEP_STATE_MAP[previousStep],
       });
@@ -119,9 +123,9 @@ function Play(props: PlayProps): React.ReactElement {
   };
 
   const handleNextClick = (): void => {
-    const nextStep = getNext(ALL_STEPS, step);
+    const nextStep = getNext(ALL_STEPS, lobbyStep);
     if (nextStep) {
-      setGame({
+      updateGame({
         ...game,
         state: STEP_STATE_MAP[nextStep],
       });
@@ -129,7 +133,7 @@ function Play(props: PlayProps): React.ReactElement {
   };
 
   const handleLangChange = (language: Language): void => {
-    setGame({
+    updateGame({
       ...game,
       settings: {
         ...game.settings,
@@ -144,7 +148,7 @@ function Play(props: PlayProps): React.ReactElement {
   };
 
   const handleModeChange = (mode: Mode): void => {
-    setGame({
+    updateGame({
       ...game,
       settings: {
         ...game.settings,
@@ -161,14 +165,14 @@ function Play(props: PlayProps): React.ReactElement {
         size="small"
         color="primary"
         onClick={handlePreviousClick}
-        disabled={getPrevious(ALL_STEPS, step) === null}
+        disabled={getPrevious(ALL_STEPS, lobbyStep) === null}
       >
         <NavigateBefore fontSize="inherit" className={classes.navBtn} />
       </Fab>
       <Stepper
         className={classes.stepper}
         steps={ALL_STEPS}
-        value={step}
+        value={lobbyStep}
         onChange={handleStepChange}
         restrictJump
       />
@@ -178,11 +182,11 @@ function Play(props: PlayProps): React.ReactElement {
         size="small"
         color="primary"
         onClick={handleNextClick}
-        disabled={getNext(ALL_STEPS, step) === null}
+        disabled={getNext(ALL_STEPS, lobbyStep) === null}
       >
         <NavigateNext fontSize="inherit" className={classes.navBtn} />
       </Fab>
-      {step === Step.LANGUAGE ? (
+      {game.state === State.CONFIGURING_LANGUAGE ? (
         <LangSelection
           className={classes.content}
           languageInfos={config.langs}
@@ -190,7 +194,7 @@ function Play(props: PlayProps): React.ReactElement {
           onChange={handleLangChange}
         />
       ) : null}
-      {step === Step.MODE ? (
+      {game.state === State.CONFIGURING_MODE ? (
         <ModeSelection
           className={classes.content}
           modeInfos={config.modes[game.settings.language]}
@@ -198,12 +202,15 @@ function Play(props: PlayProps): React.ReactElement {
           onChange={handleModeChange}
         />
       ) : null}
-      {step === Step.PARTY ? (
+      {game.state === State.CONFIGURING_PARTY ? (
         <Party
           className={classes.content}
           players={game.players}
           requestPlayer={requestPlayer}
         />
+      ) : null}
+      {[State.READY, State.IN_PROGRESS].includes(game.state) ? (
+        <Game className={classes.content} />
       ) : null}
     </div>
   );

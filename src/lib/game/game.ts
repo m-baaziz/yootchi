@@ -1,7 +1,8 @@
 import { Result, ok, err } from "neverthrow";
-import { Language } from "../types/language";
-import { Mode } from "../types/mode";
-import { Game, State, Error } from "../types/game";
+import { Language } from "../../types/language";
+import { Mode } from "../../types/mode";
+import { Game, State, Error } from "../../types/game/game";
+import { FlashcardContext } from "../../types/game/flashcard";
 
 export const DEFAULT_GAME: Game = {
   state: State.CONFIGURING_LANGUAGE,
@@ -33,6 +34,18 @@ export function createGame(game: Game): Promise<Game> {
   return Promise.resolve(game);
 }
 
-export function updateGame(game: Game): Promise<void> {
-  return Promise.resolve();
+export function updateGame(game: Game): Promise<Game> {
+  console.log("updating game: ", game);
+  const newGame = { ...game };
+  if (game.state === State.READY && game.context === undefined) {
+    if (game.settings.mode === Mode.FLASHCARD) {
+      const flashcardContext: FlashcardContext = {
+        templateId: "flashcard-template-id",
+        questionCount: 2,
+        actions: [],
+      };
+      newGame.context = flashcardContext;
+    }
+  }
+  return Promise.resolve(newGame);
 }

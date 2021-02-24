@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Game } from "../../types/game";
+import { Game } from "../../types/game/game";
 import { Team } from "../../types/player";
 import { Message } from "../../types/chat";
 import { Account } from "../../types/account";
@@ -11,7 +11,7 @@ import {
   getActiveGame,
   createGame,
   updateGame,
-} from "../../lib/game";
+} from "../../lib/game/game";
 import { getPlayers } from "../../lib/player";
 import { sendMessage } from "../../lib/chat";
 import { getAccount, accountToPlayer } from "../../lib/account";
@@ -25,10 +25,19 @@ export default function GameController(
   const [initialized, setInitialized] = React.useState<boolean>(false);
   const [messages, setMessages] = React.useState<Message[]>([]);
 
+  const updateAndSetGame = async (game: Game) => {
+    try {
+      const newGame = await updateGame(game);
+      setGame(newGame);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   const requestPlayer = (team: Team): void => {
     const players = getPlayers().filter((p) => p.team === team);
     if (players.length > 0) {
-      setGame({
+      updateAndSetGame({
         ...game,
         players: [...game.players, players[0]],
       });
@@ -70,17 +79,6 @@ export default function GameController(
   }, [setInitialized, initialized, game]);
 
   React.useEffect(() => {
-    const update = async () => {
-      try {
-        await updateGame(game);
-      } catch (e) {
-        console.error(e);
-      }
-    };
-    update();
-  }, [setGame, game]);
-
-  React.useEffect(() => {
     const loadAccount = async () => {
       try {
         const account = await getAccount();
@@ -97,7 +95,8 @@ export default function GameController(
       value={{
         game: game,
         messages,
-        setGame: setGame,
+        updateGame: updateAndSetGame,
+        setGame,
         requestPlayer,
         sendMessage: handleSendMessage,
       }}

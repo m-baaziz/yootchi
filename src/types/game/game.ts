@@ -1,6 +1,7 @@
-import { Language } from "./language";
-import { Mode } from "./mode";
-import { Player } from "./player";
+import { Language } from "../language";
+import { Mode } from "../mode";
+import { Player } from "../player";
+import { FlashcardContext } from "./flashcard";
 
 export enum Error {
   INVALID_LANGUAGE = "Invalid language",
@@ -21,9 +22,12 @@ export type Settings = {
   mode?: Mode;
 };
 
+export type SpecificGameContext = FlashcardContext;
+
 export type Game = {
   id?: string;
   state: State;
   settings: Settings;
   players: Player[];
+  context?: SpecificGameContext;
 };

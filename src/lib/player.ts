@@ -28,3 +28,10 @@ export function getPlayers(): Player[] {
     },
   ];
 }
+
+export function getTeams(players: Player[]): Team[] {
+  return players.reduce(
+    (acc, player) => (acc.includes(player.team) ? acc : [...acc, player.team]),
+    [] as Team[]
+  );
+}

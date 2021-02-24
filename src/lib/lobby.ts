@@ -1,7 +1,7 @@
 import { Language } from "../types/language";
 import { Mode } from "../types/mode";
 import { Step, LobbyConfig } from "../types/lobby";
-import { State } from "../types/game";
+import { State } from "../types/game/game";
 
 export const ALL_STEPS: Step[] = [Step.LANGUAGE, Step.MODE, Step.PARTY];
 
