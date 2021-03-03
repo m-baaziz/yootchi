@@ -9,7 +9,7 @@ import { State } from "../../../types/game/game";
 import GameContext from "../../../contexts/game-context";
 
 import PlayerComponent from "./Player";
-import Chat from "./Chat";
+import Chat from "../../chat/Chat";
 
 const TEAM_COLORS: Record<Team, string> = {
   [Team.BLUE]: blue[500],
@@ -38,7 +38,15 @@ const styles = (theme: Theme) =>
     team2: { gridArea: "team-2" },
     addPlayer1: { gridArea: "add-player-1" },
     addPlayer2: { gridArea: "add-player-2" },
-    chat: { gridArea: "chat" },
+    chat: {
+      gridArea: "chat",
+      [theme.breakpoints.up("lg")]: {
+        height: 250,
+      },
+      [theme.breakpoints.down("lg")]: {
+        height: 180,
+      },
+    },
     btnCommon: { height: "4em" },
     start: {
       gridArea: "start",

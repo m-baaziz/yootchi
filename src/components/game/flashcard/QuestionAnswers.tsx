@@ -1,14 +1,14 @@
 import React from "react";
 import cn from "classnames";
 import { withStyles, WithStyles } from "@material-ui/core/styles";
-import { createStyles, Button } from "@material-ui/core";
+import { createStyles, Button, Theme } from "@material-ui/core";
 
 import {
   FlashcardQuestion,
   FlashcardAnswer,
 } from "../../../types/game/flashcard";
 
-const styles = () =>
+const styles = (theme: Theme) =>
   createStyles({
     root: {
       display: "grid",
@@ -21,13 +21,24 @@ const styles = () =>
         ",
       justifyContent: "center",
     },
-    question: { gridArea: "question", placeSelf: "center", minWidth: "20em" },
+    question: {
+      gridArea: "question",
+      placeSelf: "center",
+      [theme.breakpoints.up("lg")]: { minWidth: "25em" },
+      [theme.breakpoints.down("lg")]: { minWidth: "15em" },
+    },
     answers: {
       gridArea: "answers",
       display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(15em, 1fr))",
       rowGap: "2em",
-      columnGap: "15em",
+      [theme.breakpoints.up("lg")]: {
+        gridTemplateColumns: "repeat(2, minmax(15em, 1fr))",
+        columnGap: "25em",
+      },
+      [theme.breakpoints.down("lg")]: {
+        gridTemplateColumns: "repeat(auto-fit, minmax(15em, 1fr))",
+        columnGap: "15em",
+      },
     },
     answer: {},
   });

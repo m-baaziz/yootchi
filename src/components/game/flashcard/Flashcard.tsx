@@ -17,14 +17,29 @@ import { getTeams } from "../../../lib/player";
 
 import GameContext from "../../../contexts/game-context";
 
+import Chat from "../../chat/GameChat";
 import Scores from "./Scores";
 import QuestionAnswers from "./QuestionAnswers";
 
 const styles = () =>
   createStyles({
-    root: {},
-    scores: {},
-    questionAnswers: {},
+    root: {
+      display: "grid",
+      gridTemplate:
+        "  \
+          '     .        ' 1em   \
+          '   chat       ' 30%   \
+          '     .        ' 1em   \
+          '  scores      ' auto  \
+          '     .        ' 3em   \
+          ' playground   ' auto  \
+          '     .        ' 1fr   \
+          /    1fr               \
+        ",
+    },
+    chat: { gridArea: "chat" },
+    scores: { gridArea: "scores" },
+    playground: { gridArea: "playground" },
   });
 
 type FlashcardProps = WithStyles<typeof styles> & {
@@ -67,6 +82,7 @@ function Flashcard(props: FlashcardProps): React.ReactElement {
 
   return (
     <div className={cn(classes.root, className)}>
+      <Chat className={classes.chat} />
       <Scores
         className={classes.scores}
         scores={computeScores(
@@ -77,12 +93,12 @@ function Flashcard(props: FlashcardProps): React.ReactElement {
       />
       {question ? (
         <QuestionAnswers
-          className={classes.questionAnswers}
+          className={classes.playground}
           question={question}
           onAnswerSelection={handleAnswerSelection}
         />
       ) : (
-        <div className={classes.questionAnswers} />
+        <div className={classes.playground} />
       )}
     </div>
   );

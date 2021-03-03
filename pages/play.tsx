@@ -65,6 +65,7 @@ function Play(props: PlayProps): React.ReactElement {
   const [holdingCmd, setHoldingCmd] = React.useState<boolean>(false);
 
   React.useEffect(() => {
+    if (game.state === State.IN_PROGRESS) return;
     const listener = (updown: "up" | "down") => (event: KeyboardEvent) => {
       const { key } = event;
       if ([Key.Meta, Key.Control].includes(key as Key)) {
@@ -159,33 +160,37 @@ function Play(props: PlayProps): React.ReactElement {
 
   return (
     <div className={classes.root}>
-      <Fab
-        className={cn(classes.navFab, classes.previous)}
-        aria-label="previous"
-        size="small"
-        color="primary"
-        onClick={handlePreviousClick}
-        disabled={getPrevious(ALL_STEPS, lobbyStep) === null}
-      >
-        <NavigateBefore fontSize="inherit" className={classes.navBtn} />
-      </Fab>
-      <Stepper
-        className={classes.stepper}
-        steps={ALL_STEPS}
-        value={lobbyStep}
-        onChange={handleStepChange}
-        restrictJump
-      />
-      <Fab
-        className={cn(classes.navFab, classes.next)}
-        aria-label="next"
-        size="small"
-        color="primary"
-        onClick={handleNextClick}
-        disabled={getNext(ALL_STEPS, lobbyStep) === null}
-      >
-        <NavigateNext fontSize="inherit" className={classes.navBtn} />
-      </Fab>
+      {game.state !== State.IN_PROGRESS ? (
+        <>
+          <Fab
+            className={cn(classes.navFab, classes.previous)}
+            aria-label="previous"
+            size="small"
+            color="primary"
+            onClick={handlePreviousClick}
+            disabled={getPrevious(ALL_STEPS, lobbyStep) === null}
+          >
+            <NavigateBefore fontSize="inherit" className={classes.navBtn} />
+          </Fab>
+          <Stepper
+            className={classes.stepper}
+            steps={ALL_STEPS}
+            value={lobbyStep}
+            onChange={handleStepChange}
+            restrictJump
+          />
+          <Fab
+            className={cn(classes.navFab, classes.next)}
+            aria-label="next"
+            size="small"
+            color="primary"
+            onClick={handleNextClick}
+            disabled={getNext(ALL_STEPS, lobbyStep) === null}
+          >
+            <NavigateNext fontSize="inherit" className={classes.navBtn} />
+          </Fab>
+        </>
+      ) : null}
       {game.state === State.CONFIGURING_LANGUAGE ? (
         <LangSelection
           className={classes.content}
