@@ -22,12 +22,12 @@ export type Settings = {
   mode?: Mode;
 };
 
-export type SpecificGameContext = FlashcardContext;
+export type GameContext = FlashcardContext;
 
 export type Game = {
   id?: string;
   state: State;
   settings: Settings;
   players: Player[];
-  context?: SpecificGameContext;
+  context?: GameContext;
 };

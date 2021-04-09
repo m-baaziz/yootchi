@@ -3,14 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "jest": {
-    "verbose": true
+    "verbose": true,
+    "setupFiles": [
+      "dotenv/config"
+    ],
+    "testEnvironment": "node"
   },
   "scripts": {
     "dev": "STAGE=dev next dev",
     "build": "next build",
     "start": "STAGE=dev next start",
-    "test": "jest",
-    "test-watch": "jest --watch",
+    "test": "DOTENV_CONFIG_PATH=./.env.test jest",
+    "test-watch": "DOTENV_CONFIG_PATH=./.env.test jest --watch",
     "lint": "eslint .",
     "deployStaging": "STAGE=staging serverless --stage=staging",
     "deployProd": "STAGE=prod serverless --stage=prod"
@@ -21,6 +25,8 @@
     "@material-ui/lab": "^4.0.0-alpha.57",
     "classnames": "^2.2.6",
     "date-fns": "^2.17.0",
+    "firebase": "^8.2.10",
+    "keymirror": "^0.1.1",
     "lodash": "^4.17.20",
     "neverthrow": "^4.0.1",
     "next": "10.0.5",
@@ -31,15 +37,20 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "@firebase/rules-unit-testing": "^1.2.4",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
+    "@testing-library/react-hooks": "^5.1.0",
     "@testing-library/user-event": "^12.6.3",
     "@types/classnames": "^2.2.11",
+    "@types/firebase": "^3.2.1",
     "@types/jest": "^26.0.20",
+    "@types/keymirror": "^0.1.1",
     "@types/node": "^14.14.22",
     "@types/react": "^17.0.1",
     "@typescript-eslint/eslint-plugin": "^4.14.2",
     "@typescript-eslint/parser": "^4.14.2",
+    "dotenv": "^8.2.0",
     "eslint": "^7.19.0",
     "eslint-config-prettier": "^7.2.0",
     "eslint-plugin-jsx-a11y": "^6.4.1",
