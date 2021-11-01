@@ -1,0 +1,14 @@
+type LanguageInfo {
+  id: String
+  image_url: String
+  flag_url: String
+}
+
+type Preferences {
+  language_info: LanguageInfo
+}
+
+type Query {
+  hello: String
+  preferences: Preferences
+}

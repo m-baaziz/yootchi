@@ -6,3 +6,7 @@ export type Account = {
   avatar_url: string;
   language_info: LanguageInfo;
 };
+
+export enum ERRORS {
+  USER_NOT_SIGNED_IN = "user not signed in",
+}

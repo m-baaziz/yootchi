@@ -1,5 +1,10 @@
 import React from "react";
-import firebase, { collections } from "../lib/firebase";
+import firebase from "../lib/firebase";
+import {
+  getUserPreferencesDocument,
+  updatePreferences,
+  updateProfile,
+} from "../lib/account";
 import { User, Profile, Preferences } from "../types/user";
 
 export type UseUserResult = {
@@ -11,28 +16,6 @@ export type UseUserResult = {
   updateProfile: (profile: Profile) => Promise<void>;
   updatePreferences: (preferences: Preferences) => Promise<void>;
 };
-
-export function getUserPreferencesDocument(userId: string) {
-  return firebase
-    .firestore()
-    .collection(collections.USER_PREFERENCES)
-    .doc(userId);
-}
-
-function updateProfile(profile: Profile): Promise<void> {
-  const { currentUser } = firebase.auth();
-  if (!currentUser) return Promise.resolve();
-  return currentUser.updateProfile({
-    displayName: profile.username,
-    photoURL: profile.avatar_url,
-  });
-}
-
-function updatePreferences(preferences: Preferences): Promise<void> {
-  const { currentUser } = firebase.auth();
-  if (!currentUser) return Promise.resolve();
-  return getUserPreferencesDocument(currentUser.uid).set(preferences);
-}
 
 export function useUser(): UseUserResult {
   const [user, setUser] = React.useState<User | null>(null);

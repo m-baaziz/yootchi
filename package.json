@@ -20,12 +20,14 @@
     "deployProd": "STAGE=prod serverless --stage=prod"
   },
   "dependencies": {
+    "@editorjs/editorjs": "^2.22.2",
     "@material-ui/core": "^4.11.3",
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.57",
     "classnames": "^2.2.6",
     "date-fns": "^2.17.0",
     "firebase": "^8.2.10",
+    "graphql": "^15.5.0",
     "keymirror": "^0.1.1",
     "lodash": "^4.17.20",
     "neverthrow": "^4.0.1",
@@ -44,6 +46,7 @@
     "@testing-library/user-event": "^12.6.3",
     "@types/classnames": "^2.2.11",
     "@types/firebase": "^3.2.1",
+    "@types/graphql": "^14.5.0",
     "@types/jest": "^26.0.20",
     "@types/keymirror": "^0.1.1",
     "@types/node": "^14.14.22",
