@@ -25,11 +25,13 @@ function Home(props: HomeProps): React.ReactElement {
       </Head>
       <div className={classes.root}>
         <div className={classes.content}>
-          <Link href="/play">
-            <Button variant="outlined" color="primary">
-              Play Now
-            </Button>
-          </Link>
+          <div>
+            <Link href="/play">
+              <Button variant="outlined" color="primary">
+                Play Now
+              </Button>
+            </Link>
+          </div>
         </div>
       </div>
     </>

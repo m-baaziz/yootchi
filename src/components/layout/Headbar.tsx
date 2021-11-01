@@ -13,19 +13,25 @@ const styles = () =>
   createStyles({
     root: {
       width: "100%",
-      display: "flex",
-      flexDirection: "row",
-      justifyContent: "space-between",
+      display: "grid",
+      gridTemplate:
+        "  \
+        ' icons title  .  actions '  auto   \
+        /  auto  auto 1fr   auto            \
+      ",
     },
     common: {
       margin: "auto",
     },
-    menuIconContainer: { marginLeft: 0 },
+    menuIconContainer: { gridArea: "icons", marginLeft: 0 },
+    titleContainer: { gridArea: "title", marginLeft: 0 },
     actionsContainer: {
+      gridArea: "actions",
       display: "flex",
       flexDirection: "row",
       marginRight: 0,
     },
+    sections: { display: "flex", marginRight: "3em" },
     icon: { color: "inherit" },
     title: { cursor: "pointer" },
   });
@@ -57,32 +63,43 @@ function Headbar(props: HeadbarProps): React.ReactElement {
           {game ? <WidgetsIcon /> : <ListIcon />}
         </IconButton>
       </div>
-      <Link href="/">
-        <h2 className={cn(classes.common, classes.title)}>Yootchi</h2>
-      </Link>
+      <div className={cn(classes.common, classes.titleContainer)}>
+        <Link href="/">
+          <h2 className={cn(classes.common, classes.title)}>Yootchi</h2>
+        </Link>
+      </div>
       <div className={cn(classes.common, classes.actionsContainer)}>
-        {!user ? (
-          <Link href="/signin">
+        <div className={classes.sections}>
+          <div className={classes.common}>
+            <Link href="/lessons/editor">
+              <h4 className={cn(classes.common, classes.title)}>Courses</h4>
+            </Link>
+          </div>
+        </div>
+        <div className={classes.common}>
+          {!user ? (
+            <Link href="/signin">
+              <Button
+                className={classes.common}
+                variant="outlined"
+                size="small"
+                color="primary"
+              >
+                Login
+              </Button>
+            </Link>
+          ) : (
             <Button
               className={classes.common}
               variant="outlined"
               size="small"
               color="primary"
+              onClick={handleLogOut}
             >
-              Login
+              Logout
             </Button>
-          </Link>
-        ) : (
-          <Button
-            className={classes.common}
-            variant="outlined"
-            size="small"
-            color="primary"
-            onClick={handleLogOut}
-          >
-            Logout
-          </Button>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );

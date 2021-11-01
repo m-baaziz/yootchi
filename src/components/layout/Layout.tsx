@@ -32,7 +32,7 @@ const styles = () =>
       gridArea: "header",
     },
     main: {
-      overflow: "hidden",
+      overflow: "scroll",
       gridArea: "main",
     },
   });
